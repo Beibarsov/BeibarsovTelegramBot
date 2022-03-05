@@ -37,10 +37,7 @@ class BotWorker
         var me =  botClient.GetMeAsync().Result;
 
         Console.WriteLine($"Start listening for @{me.Username}");
-        Console.ReadLine();
 
-        // Send cancellation request to stop bot
-        cts.Cancel();
 
         async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -73,5 +70,11 @@ class BotWorker
             Console.WriteLine(ErrorMessage);
             return Task.CompletedTask;
         }
+    }
+
+    public void Stop(){
+        Console.ReadLine();
+        // Send cancellation request to stop bot
+        cts.Cancel();
     }
 }
