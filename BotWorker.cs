@@ -15,6 +15,8 @@ class BotWorker
     Message sendMessage;
 
     ILogger logger;
+
+    BotMessageLogic logic;
     public void Inizalize()
     {
 
@@ -29,7 +31,7 @@ class BotWorker
 
         logger = new Logger();
 
-        
+        logic = new BotMessageLogic(new Messenger());
 
     }
 
@@ -49,6 +51,7 @@ class BotWorker
         async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             var chatId = update.Message.Chat.Id;
+           // logic.Response(n());
 
             try
             {
@@ -62,12 +65,12 @@ class BotWorker
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
-             sendMessage = await botClient.SendTextMessageAsync(
-                chatId: chatId, text: $"Произошла ошибка: {ex.Message}", cancellationToken: cancellationToken
-            );
+                sendMessage = await botClient.SendTextMessageAsync(
+                   chatId: chatId, text: $"Произошла ошибка: {ex.Message}", cancellationToken: cancellationToken
+               );
                 return;
             } // Only process Message updates: https://core.telegram.org/bots/api#message
-            
+
             var messageText = update.Message.Text;
 
             logger.Event($"Received a '{messageText}' message in chat {chatId}.");
