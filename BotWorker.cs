@@ -7,17 +7,27 @@ using Telegram.Bot.Types.Enums;
 
 class BotWorker
 {
+     string BotToken = "5158490376:AAEMo4M6didw6xBPdJ99xNz1SERGRim-sE8";
+     TelegramBotClient botClient;
+     CancellationTokenSource cts;
+    ReceiverOptions receiverOptions;
     public void Inizalize()
     {
-        string BotToken = "5158490376:AAEMo4M6didw6xBPdJ99xNz1SERGRim-sE8";
-        var botClient = new TelegramBotClient(BotToken);
+       
+       botClient = new TelegramBotClient(BotToken);
 
-        using var cts = new CancellationTokenSource();
+     cts = new CancellationTokenSource();
 
-        var receiverOptions = new ReceiverOptions
+        receiverOptions = new ReceiverOptions
         {
             AllowedUpdates = { } // receive all update types
         };
+        
+
+    }
+
+     public void Start()
+    {
         botClient.StartReceiving(
             HandleUpdateAsync,
             HandleErrorAsync,
@@ -63,6 +73,5 @@ class BotWorker
             Console.WriteLine(ErrorMessage);
             return Task.CompletedTask;
         }
-
     }
 }

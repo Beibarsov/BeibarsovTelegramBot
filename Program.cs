@@ -5,3 +5,4 @@
 
 BotWorker botWorker = new BotWorker();
 botWorker.Inizalize();
+botWorker.Start();
